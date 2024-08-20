@@ -101,14 +101,25 @@ void handle_input(chip8_t *chip8) {
             chip8->state = QUIT; // Quit main emulator loop
             return;
         case SDL_KEYUP:
+            break;
         case SDL_KEYDOWN:
-        
+            switch(event.key.keysym.sym){
+                case SDLK_ESCAPE:
+                    chip8->state = QUIT;
+                    return;
+                default:
+                    break;
+            }
+            break;
+        default:
+            break;
 
         }
     }
 }
 
 bool init_chip8(chip8_t *chip8, const config_t config){
+    chip8->state = RUNNING;
     return true;
 }
 
@@ -129,7 +140,6 @@ int main(int argc, char **argv){
     // Initialize screen clear to background color
     clear_screen(sdl, config);
 
-    chip8.state = RUNNING;
 
     // Main emulator loop
     while(chip8.state != QUIT){
